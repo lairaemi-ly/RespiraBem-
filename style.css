@@ -540,37 +540,33 @@ li {
         padding: 10px;
     }
 
-    header {
-        flex-direction: column;
+    .titulo-pagina h1 {
+        font-size: 22px;
         text-align: center;
+    }
+
+    .titulo-pagina p {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .grid-sintomas,
+    .grid-causas,
+    .grid-intensidade {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 10px;
     }
 
-    nav {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .hero h1 {
-        font-size: 20px;
-    }
-
-    .hero p {
+    .card-sintoma,
+    .card-causa,
+    .card-intensidade {
+        padding: 10px;
         font-size: 14px;
     }
 
-    .botoes {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .cards {
-        flex-direction: column;
-    }
-
-    button {
+    .btn-orientacao {
         width: 100%;
+        margin-top: 15px;
     }
 }
