@@ -540,6 +540,92 @@ li {
         padding: 10px;
     }
 
+    header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+
+    nav a {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        background: #f2f2f2;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+
+    .hero h1 {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .hero p {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .botoes {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .botoes button {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .cards {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .card {
+        width: 100%;
+    }
+
+    .sobre h2 {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .sobre p {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .grid-sintomas,
+    .grid-causas,
+    .grid-intensidade {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .card-sintoma,
+    .card-causa,
+    .card-intensidade {
+        width: 100%;
+        padding: 15px;
+        font-size: 14px;
+        text-align: center;
+    }
+
     .titulo-pagina h1 {
         font-size: 22px;
         text-align: center;
@@ -550,49 +636,12 @@ li {
         text-align: center;
     }
 
-    .grid-sintomas,
-    .grid-causas,
-    .grid-intensidade {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-    }
-
-    .card-sintoma,
-    .card-causa,
-    .card-intensidade {
-        padding: 10px;
-        font-size: 14px;
-    }
-
     .btn-orientacao {
         width: 100%;
-        margin-top: 15px;
+        padding: 14px;
     }
 
-    nav {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        align-items: center;
-    }
-
-    nav a {
-        display: block;
-        width: 100%;
-        text-align: center;
-        padding: 10px;
-        background: #f2f2f2;
-        border-radius: 8px;
-    }
-
-    nav a:hover {
-        background: #ddd;
-    }
-
-    header {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
+    button {
+        font-size: 14px;
     }
 }
