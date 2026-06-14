@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergência</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="caixa-emergencia">
+
+        <h1>Sintomas de Emergência</h1>
+
+        <p>
+            Se você ou alguém próximo estiver apresentando os seguintes sintomas,
+            procure atendimento médico imediatamente:
+        </p>
+
+        <ul>
+            <li>Dificuldade para respirar ou falta de ar intensa</li>
+            <li>Inchaço no rosto, lábios, língua ou garganta</li>
+            <li>Urticária generalizada ou erupção cutânea grave</li>
+            <li>Vômitos persistentes ou diarreia intensa</li>
+            <li>Confusão mental ou perda de consciência</li>
+            <li>Batimento cardíaco acelerado ou irregular</li>
+        </ul>
+
+    </div>
+
+    <div class="container-botoes">
+
+        <div class="emergencia">
+            <h2>🚑 SAMU</h2>
+            <p>Atendimento médico de emergência.</p>
+            <a href="tel:192" class="botao-emergencia">
+                Ligar 192
+            </a>
+        </div>
+
+        <div class="emergencia">
+            <h2>🚒 Corpo de Bombeiros</h2>
+            <p>Resgate e atendimento em situações de risco.</p>
+            <a href="tel:193" class="botao-emergencia">
+                Ligar 193
+            </a>
+        </div>
+
+    </div>
+
+    <div class="atendimento-box">
+
+        <h2 class="titulo-emergencia">
+
+            <span class="icone-alerta">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </span>
+
+            Atendimento de Emergência
+
+        </h2>
+
+        <p>
+            Se os sintomas estiverem piorando ou houver risco à vida,
+            procure imediatamente o hospital mais próximo.
+        </p>
+
+        <a href="atendimento.html" class="btn-atendimento">
+            Encontrar Atendimento
+        </a>
+
+    </div>
+
+    <div class="orientacoes">
+
+        <h2>
+            <i class="fa-solid fa-heart-pulse"></i>
+            O que fazer enquanto espera o socorro
+        </h2>
+
+        <ul>
+            <li>Mantenha a calma e tente respirar lentamente.</li>
+            <li>Afaste-se da possível causa da reação alérgica.</li>
+            <li>Afrouxe roupas apertadas para facilitar a respiração.</li>
+            <li>Permaneça sentado ou deitado em local seguro.</li>
+            <li>Não tome medicamentos sem orientação médica.</li>
+            <li>Se possuir medicamento prescrito para emergências alérgicas, siga as orientações médicas.</li>
+            <li>Peça ajuda a alguém próximo e mantenha contato até a chegada do socorro.</li>
+            <li>Em caso de perda de consciência, acione imediatamente o SAMU (192).</li>
+        </ul>
+
+    </div>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background-color:#f33333;
+    font-family:'Poppins',sans-serif;
+    padding:40px 20px;
+}
+
+.caixa-emergencia{
+    background:white;
+    max-width:900px;
+    margin:0 auto 40px auto;
+    padding:30px;
+    border-radius:16px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+
+.caixa-emergencia h1{
+    color:#f33333;
+    font-size:36px;
+    margin-bottom:15px;
+}
+
+.caixa-emergencia p,
+.caixa-emergencia ul{
+    color:#333;
+    font-size:16px;
+    line-height:1.8;
+}
+
+.caixa-emergencia ul{
+    padding-left:20px;
+}
+
+.container-botoes{
+    display:flex;
+    justify-content:center;
+    gap:60px;
+    flex-wrap:wrap;
+    margin-bottom:50px;
+}
+
+.emergencia{
+    text-align:center;
+    color:white;
+}
+
+.emergencia h2{
+    margin-bottom:10px;
+}
+
+.emergencia p{
+    color:white;
+}
+
+.botao-emergencia{
+    display:inline-block;
+    margin-top:10px;
+    padding:12px 25px;
+    background:white;
+    color:#f33333;
+    text-decoration:none;
+    border:2px solid white;
+    border-radius:8px;
+    font-weight:bold;
+    transition:transform .3s;
+}
+
+.botao-emergencia:hover{
+    transform:scale(1.1);
+}
+
+.atendimento-box{
+    background:white;
+    max-width:900px;
+    margin:0 auto 40px auto;
+    padding:30px;
+    border-radius:16px;
+    text-align:center;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+
+.titulo-emergencia{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+    color:#f33333;
+    margin-bottom:15px;
+}
+
+.icone-alerta{
+    width:45px;
+    height:45px;
+    background:#f33333;
+    color:white;
+    border-radius:12px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:22px;
+}
+
+.atendimento-box p{
+    color:#333;
+    margin-bottom:25px;
+    line-height:1.8;
+}
+
+.btn-atendimento{
+    display:inline-block;
+    background:#f33333;
+    color:white;
+    text-decoration:none;
+    padding:14px 28px;
+    border-radius:10px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.btn-atendimento:hover{
+    transform:scale(1.05);
+}
+
+.orientacoes{
+    background:white;
+    max-width:900px;
+    margin:0 auto;
+    padding:30px;
+    border-radius:16px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+
+.orientacoes h2{
+    color:#f33333;
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.orientacoes h2 i{
+    font-size:28px;
+}
+
+.orientacoes ul{
+    color:#333;
+    line-height:2;
+    padding-left:20px;
+}
+
+</style>
+
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Atendimento</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#e4edf6;
+    font-family:'Poppins',sans-serif;
+    padding:30px;
+}
+
+.mapa-emergencia{
+    text-align:center;
+}
+
+.mapa-emergencia h1{
+    color:#2563eb;
+    margin-bottom:10px;
+}
+
+.mapa-emergencia p{
+    margin-bottom:20px;
+}
+
+.pesquisa-cidade{
+    margin-bottom:20px;
+}
+
+.pesquisa-cidade input{
+    width:300px;
+    padding:12px;
+    border-radius:8px;
+    border:none;
+}
+
+.pesquisa-cidade button{
+    padding:12px 20px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    background:#2563eb;
+    color:white;
+    font-weight:600;
+}
+
+.mapa-container{
+    background:white;
+    padding:15px;
+    border-radius:16px;
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+
+#map{
+    height:650px;
+    border-radius:12px;
+}
+
+.hospital-marker{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    border:3px solid #2563eb;
+    box-shadow:0 3px 10px rgba(0,0,0,.25);
+}
+
+.farmacia-marker{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    border:3px solid #f33333;
+    box-shadow:0 3px 10px rgba(0,0,0,.25);
+}
+.hospital-proximo{
+    background:white;
+    max-width:100%;
+    margin:0 auto 20px auto;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+
+.hospital-proximo h2{
+    color:#2563eb;
+    margin-bottom:15px;
+}
+
+.hospital-info{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+#nomeHospital{
+    font-size:18px;
+    font-weight:600;
+    color:#333;
+    margin:0;
+}
+
+.btn-rota{
+    background:#2563eb;
+    color:white;
+    text-decoration:none;
+    padding:12px 20px;
+    border-radius:10px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.btn-rota:hover{
+    transform:scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<section class="mapa-emergencia">
+
+<h1>🏥 Hospitais e Farmácias</h1>
+
+<p>
+Permita sua localização ou pesquise uma cidade.
+</p>
+
+<div class="pesquisa-cidade">
+    <input type="text" id="cidade" placeholder="Digite uma cidade">
+    <button onclick="buscarCidade()">Buscar</button>
+</div>
+<div class="hospital-proximo">
+
+    <h2>🏥 Hospital Mais Próximo</h2>
+
+    <div class="hospital-info">
+
+        <p id="nomeHospital">
+            Procurando hospitais próximos...
+        </p>
+
+        <a
+            id="rotaHospital"
+            class="btn-rota"
+            target="_blank"
+            style="display:none;"
+        >
+            Traçar Rota
+        </a>
+
+    </div>
+
+</div>
+<div class="mapa-container">
+    <div id="map"></div>
+</div>
+
+</section>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    const map = L.map('map').setView([-14.235,-51.925], 4);
+
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap'
+}).addTo(map);
+
+let marcadores = [];
+let hospitalMaisProximo = null;
+
+const hospitalIcon = L.divIcon({ html: "🏥", className: "", iconSize: [25,25] });
+const farmaciaIcon = L.divIcon({ html: "💊", className: "", iconSize: [25,25] });
+
+function limpar() {
+    marcadores.forEach(m => map.removeLayer(m));
+    marcadores = [];
+    hospitalMaisProximo = null;
+    document.getElementById("nomeHospital").innerText = "Procurando hospitais próximos...";
+    document.getElementById("rotaHospital").style.display = "none";
+}
+
+function distancia(lat1, lon1, lat2, lon2) {
+    return Math.sqrt(Math.pow(lat1-lat2,2)+Math.pow(lon1-lon2,2));
+}
+
+function atualizarHospital() {
+    if (!hospitalMaisProximo) return;
+
+    document.getElementById("nomeHospital").innerText =
+        "📍 " + hospitalMaisProximo.nome;
+
+    const rota = document.getElementById("rotaHospital");
+    rota.href = `https://www.google.com/maps/dir/?api=1&destination=${hospitalMaisProximo.latitude},${hospitalMaisProximo.longitude}`;
+    rota.style.display = "inline-block";
+}
+
+async function buscarLocais(lat, lon) {
+
+    limpar();
+
+    const query = `
+[out:json];
+(
+node["amenity"="hospital"](around:10000,${lat},${lon});
+way["amenity"="hospital"](around:10000,${lat},${lon});
+node["amenity"="pharmacy"](around:10000,${lat},${lon});
+way["amenity"="pharmacy"](around:10000,${lat},${lon});
+);
+out center;
+`;
+
+    const res = await fetch("https://overpass-api.de/api/interpreter", {
+        method: "POST",
+        body: query
+    });
+
+    const data = await res.json();
+
+    let menor = Infinity;
+
+    data.elements.forEach(e => {
+
+        const nome = e.tags?.name || "Sem nome";
+
+        const lat2 = e.type === "node" ? e.lat : e.center.lat;
+        const lon2 = e.type === "node" ? e.lon : e.center.lon;
+
+        const tipo = e.tags?.amenity;
+
+        if (tipo === "hospital") {
+
+            const d = distancia(lat, lon, lat2, lon2);
+
+            if (d < menor) {
+                menor = d;
+                hospitalMaisProximo = {
+                    nome,
+                    latitude: lat2,
+                    longitude: lon2
+                };
+            }
+        }
+
+        const marker = L.marker([lat2, lon2], {
+            icon: tipo === "hospital" ? hospitalIcon : farmaciaIcon
+        }).addTo(map);
+
+        marker.bindPopup(`
+            <b>${nome}</b><br>
+            ${tipo}<br>
+            <a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${lat2},${lon2}">
+                Traçar rota
+            </a>
+        `);
+
+        marcadores.push(marker);
+    });
+
+    atualizarHospital();
+}
+
+async function buscarCidade() {
+
+    const cidade = document.getElementById("cidade").value;
+    if (!cidade) return;
+
+    const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${cidade}`);
+    const data = await res.json();
+
+    if (data.length) {
+        const lat = parseFloat(data[0].lat);
+        const lon = parseFloat(data[0].lon);
+
+        map.setView([lat, lon], 13);
+        buscarLocais(lat, lon);
+    }
+}
+
+navigator.geolocation.getCurrentPosition(
+    pos => {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+
+        map.setView([lat, lon], 13);
+        buscarLocais(lat, lon);
+    },
+    () => {
+        buscarCidade(); // fallback simples
+    }
+);
+</script>
