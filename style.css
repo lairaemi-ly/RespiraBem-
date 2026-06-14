@@ -570,3 +570,31 @@ li {
         margin-top: 15px;
     }
 }
+@media (max-width: 768px) {
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+
+    nav a {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        background: #f2f2f2;
+        border-radius: 8px;
+    }
+
+    nav a:hover {
+        background: #ddd;
+    }
+
+    header {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+}
